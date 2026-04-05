@@ -191,8 +191,14 @@ export default function App() {
   const cardMin = cards.reduce((s,c)=>s+c.min,0);
   const health  = inc>0?Math.max(0,Math.min(100,Math.round(100-pct(bil+exp,inc)+(surplus>0?5:-5)))):0;
 
-  useEffect(() => { loadAll(); }, []);
-
+useEffect(() => {
+  loadAll();
+  const interval = setInterval(() => {
+    loadAll();
+  }, 30000);
+  return () => clearInterval(interval);
+}, []);
+  
   const loadAll = async () => {
     setLoading(true); setSyncErr(false);
     try {
